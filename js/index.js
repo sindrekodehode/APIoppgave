@@ -5,17 +5,15 @@ const input = document.querySelector("#cr-input");
 
 let monster = [];
 
-renderBtn.addEventListener("click", () => {
-  // getData(getUrl(input.value));
-
-  renderMonster(getData(getUrl(input.value)).results[0]);
+renderBtn.addEventListener("click", async () => {
+  const data = await getData(getUrl(input.value));
+  renderMonster(data.results[0]);
 });
 
 async function getData(url) {
   const request = await fetch(url);
   const data = await request.json();
   monster = data;
-  console.log(monster.results);
   return monster;
 }
 
@@ -33,17 +31,12 @@ function getUrl(num) {
 }
 
 async function renderMonster(input) {
-  //   const renderMonster = await getMonsterByCR();
+  const renderMonster = await getData(getUrl(input.value));
+  const results = input;
 
-  mainContainer.innerText = input;
+  mainContainer.innerHTML = "";
 
-  //   if (navState === "main") {
-  //     const pokemonList = data.results;
-  //     pokemonList.forEach(async (pokemon) => {
-  //       const details = await getData(pokemon.url);
-  //       renderPokemonList(pokemon, details);
-  //     });
-  //   } else {
-  //     renderPokemonDetails(data);
-  //   }
+  const monsterElement = document.createElement("div");
+  monsterElement.textContent = input.name;
+  mainContainer.appendChild(monsterElement);
 }
