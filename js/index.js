@@ -12,9 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function getData(url) {
-    const request = await fetch(url);
-    const data = await request.json();
-    return data.results;
+    try {
+      const request = await fetch(url);
+      const data = await request.json();
+      return data.results;
+    } catch (error) {
+      console.error("An error occurred during data fetching:", error);
+      return [];
+    }
   }
 
   async function renderMonster(input) {
@@ -40,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <p>Wis:${input.wisdom}</p>
     <p>Cha:${input.charisma}</p>
   <br>
-  
   </div>
   `;
     mainContainer.appendChild(monsterElement);
@@ -49,14 +53,20 @@ document.addEventListener("DOMContentLoaded", () => {
   renderBtn.addEventListener("click", async () => {
     console.log("clicked");
     const url = `https://api.open5e.com/monsters/?limit=300&cr=${input.value}`;
-    const data = await getData(url);
-    const filteredMonsters = data.filter(
-      (obj) => obj.cr.toString() === input.value.toString()
-    );
-    if (filteredMonsters.length > 0) {
-      const randomIndex = getRandomMonsterIndex(filteredMonsters);
-      const randomMonster = filteredMonsters[randomIndex];
-      renderMonster(randomMonster);
+    try {
+      const data = await getData(url);
+      const filteredMonsters = data.filter(
+        (obj) => obj.cr.toString() === input.value.toString()
+      );
+      if (filteredMonsters.length > 0) {
+        const randomIndex = getRandomMonsterIndex(filteredMonsters);
+        const randomMonster = filteredMonsters[randomIndex];
+        renderMonster(randomMonster);
+      } else {
+        mainContainer.textContent = "No monsters found for the given CR value.";
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
     }
   });
 
@@ -69,8 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   async function renderDefault() {
-    const data = await getData(defaultMonster);
-    renderMonster(data[0]);
+    try {
+      const data = await getData(defaultMonster);
+      renderMonster(data[0]);
+    } catch (error) {
+      console.error("An error occurred during default rendering:", error);
+    }
   }
 
   renderDefault();

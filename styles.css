@@ -4,6 +4,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   text-align: center;
+  font-family: "Orbitron", sans-serif;
 }
 
 body {
@@ -11,14 +12,31 @@ body {
   font-size: 20px;
 }
 
+h1 {
+  font-size: 30px;
+}
+
+p {
+  font-size: 15px;
+}
+
 header {
   width: 100%;
+  padding-top: 2rem;
 }
 
 section {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  padding: 0 0 2rem 0;
 }
 
 input {
@@ -40,7 +58,6 @@ button {
   color: whitesmoke;
   -webkit-text-stroke: 1px #111111;
   font-size: 22px;
-  /* padding: 10px 20px; */
   border-radius: 10px;
   background: url(./images/dice-d20-svgrepo-com.svg);
   background-position: left;
@@ -58,14 +75,18 @@ button:hover {
 
 .container {
   max-width: 20rem;
+  min-height: 100vh;
   margin: 0 auto;
-  border: 1px solid #111111;
+  background: url(./images/34380109_v37-wit-36e-job129.svg);
+  background-size: cover;
+  background-position: center;
+  border-radius: 5%;
 }
 
 .input-section {
   font-family: "Orbitron", sans-serif;
   display: flex;
-  padding: 20px 0;
+  padding: 30px 0;
   width: 100%;
 }
 
