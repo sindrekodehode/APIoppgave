@@ -12,10 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   input.focus();
 
+  // Randomly pick a number of the array to pick a monster
   function getRandomMonsterIndex(array) {
     return Math.floor(Math.random() * array.length);
   }
 
+  // Getting data from API
   async function getData(url) {
     try {
       const request = await fetch(url);
@@ -29,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function renderMonster(input) {
     const results = input;
-
+    // adding monster stat html
     mainContainer.innerHTML = "";
 
     const monsterElement = document.createElement("div");
@@ -55,23 +57,25 @@ document.addEventListener("DOMContentLoaded", () => {
   <button id="monster-saction-btn">Special Abilities</button>
   `;
 
+    // Adding monster ability html
     const monsterActions = document.createElement("div");
     monsterActions.id = "monster-actions-container";
     monsterActions.classList.add("monster-actions-container");
     monsterActions.classList.add("hidden");
 
     monsterElement.appendChild(monsterActions);
+    if (input.actions) {
+      input.actions.forEach((input, i) => {
+        const monsterActionElement = document.createElement("div");
+        monsterActionElement.classList.add(`monster-action-container-${i}`);
 
-    input.actions.forEach((input, i) => {
-      const monsterActionElement = document.createElement("div");
-      monsterActionElement.classList.add(`monster-action-container-${i}`);
-
-      monsterActionElement.innerHTML = `
+        monsterActionElement.innerHTML = `
       <h3>${input.name}</h3>
       <p>${input.desc}</p>
       `;
-      monsterActions.appendChild(monsterActionElement);
-    });
+        monsterActions.appendChild(monsterActionElement);
+      });
+    }
 
     const monsterSActions = document.createElement("div");
     monsterSActions.id = "monster-sactions-container";
@@ -80,23 +84,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log();
     monsterElement.appendChild(monsterSActions);
+    if (input.special_abilities) {
+      input.special_abilities.forEach((input, i) => {
+        const monsterSActionElement = document.createElement("div");
+        monsterSActionElement.classList.add(`monster-saction-container-${i}`);
 
-    input.special_abilities.forEach((input, i) => {
-      const monsterSActionElement = document.createElement("div");
-      monsterSActionElement.classList.add(`monster-saction-container-${i}`);
-
-      monsterSActionElement.innerHTML = `
+        monsterSActionElement.innerHTML = `
       <h3>${input.name}</h3>
       <p>${input.desc}</p>
       `;
 
-      monsterSActions.appendChild(monsterSActionElement);
-    });
+        monsterSActions.appendChild(monsterSActionElement);
+      });
+    }
 
     let monsterActionBtnClicked = true;
     let monsterSActionBtnClicked = true;
 
     mainContainer.appendChild(monsterElement);
+
+    // Adding eventlistener to buttons to hide/show monster abilities
 
     mainContainer.addEventListener("click", (event) => {
       const target = event.target;
@@ -121,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Main renderbutton functionality
   renderBtn.addEventListener("click", async () => {
     console.log("clicked");
     const url = `https://api.open5e.com/monsters/?limit=300&cr=${input.value}`;
@@ -140,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("An error occurred:", error);
     }
   });
-
+  // Adding enter key as a click
   input.addEventListener("keypress", async (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -149,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Rendering default monster for the page
   async function renderDefault() {
     try {
       const data = await getData(defaultMonster);
