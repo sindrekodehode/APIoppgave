@@ -157,6 +157,7 @@ button:hover {
   background-color: #111111;
   padding: 15px 0;
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 #monster-saction-btn {
